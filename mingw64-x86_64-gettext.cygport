@@ -1,0 +1,34 @@
+NAME="mingw64-x86_64-gettext"
+VERSION=0.18.1.1
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="gettext/libintl for Win32 toolchain"
+DESCRIPTION="This package does NOT contain cygwin binaries.  Instead, it
+contains msvcrt-linked binaries (aka 'mingw').  It is for use with the
+mingw64-x86_64-gcc cross compiler, and installs into the
+/usr/x86_64-w64-mingw32/sys-root/mingw/{lib,include} directories."
+HOMEPAGE="http://www.gnu.org/software/gettext/"
+SRC_URI="mirror://gnu/gettext/gettext-${VERSION}.tar.gz"
+SRC_DIR="gettext-${VERSION}"
+CROSS_HOST="x86_64-w64-mingw32"
+ORIG_PN="gettext"
+inherit cross
+
+DIFF_EXCLUDES="aclocal.m4 build-aux configure Makefile.in libtool.m4 lt*.m4"
+
+MAKEOPTS+=" bin_PROGRAMS= bin_SCRIPTS= gettextsrc_DATA= DOC_FILES= JAVADOC2_FILES= "
+MAKEOPTS+=" CATALOGS= HTMLS= INFO_DEPS= man_MANS= man_HTML= notrans_man_MANS= "
+
+src_compile() {
+	cd ${S}
+	# libtool 2.4+ required for mingw64 support
+	libtoolize --copy --force || error "libtoolize failed"
+	./autogen.sh --quick --skip-gnulib
+	cd ${B}
+	CYGCONF_SOURCE=${S}/gettext-runtime
+	cygconf --enable-shared --enable-static --enable-threads=win32 \
+		--disable-csharp --disable-java
+	cygmake
+}
+
+KEEP_LA_FILES="none"
