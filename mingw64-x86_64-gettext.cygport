@@ -2,7 +2,7 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-gettext"
-VERSION=0.19.5.1
+VERSION=0.19.7
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="gettext/libintl for Win64 toolchain"
@@ -11,7 +11,7 @@ contains msvcrt-linked binaries (aka 'mingw').  It is for use with the
 mingw64-x86_64-gcc cross compiler, and installs into the
 /usr/x86_64-w64-mingw32/sys-root/mingw/{lib,include} directories."
 HOMEPAGE="http://www.gnu.org/software/gettext/"
-SRC_URI="mirror://gnu/gettext/gettext-${VERSION}.tar.gz"
+SRC_URI="mirror://gnu/gettext/gettext-${VERSION}.tar.xz"
 SRC_DIR="gettext-${VERSION}"
 
 MAKEOPTS+=" bin_PROGRAMS= bin_SCRIPTS= gettextsrc_DATA= DOC_FILES= JAVADOC2_FILES= "
